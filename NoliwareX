@@ -2619,14 +2619,6 @@ Domain.Home.WallpaperManage.None.Interact.MouseButton1Click:Connect(function()
 	Domain.Home.Wallpaper.Image = ""
 end)
 
-function Execute(String)
-	if loadstring then
-		loadstring(game:HttpGet(String, true))()
-	else
-		Toast("Missing loadstring function")
-	end
-end
-
 function PromptDetection(Script)
 	if Script.Premium then
 		if not UserIsPremium then
