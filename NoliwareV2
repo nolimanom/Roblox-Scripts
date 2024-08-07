@@ -1,0 +1,475 @@
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88    @uniquadev
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
+]=]
+
+-- Instances: 47 | Scripts: 3 | Modules: 0
+local G2L = {};
+
+-- StarterGui.NoliWare
+G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"]["SafeAreaCompatibility"] = Enum.SafeAreaCompatibility.None;
+G2L["1"]["IgnoreGuiInset"] = true;
+G2L["1"]["ScreenInsets"] = Enum.ScreenInsets.None;
+G2L["1"]["ClipToDeviceSafeArea"] = false;
+G2L["1"]["Name"] = [[NoliWare]];
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+
+-- StarterGui.NoliWare.MainFrame
+G2L["2"] = Instance.new("Frame", G2L["1"]);
+G2L["2"]["BorderSizePixel"] = 0;
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2"]["Size"] = UDim2.new(0, 1264, 0, 808);
+G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2"]["Name"] = [[MainFrame]];
+G2L["2"]["BackgroundTransparency"] = 1;
+
+-- StarterGui.NoliWare.MainFrame.MainWindow
+G2L["3"] = Instance.new("Frame", G2L["2"]);
+G2L["3"]["Visible"] = false;
+G2L["3"]["BorderSizePixel"] = 0;
+G2L["3"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["3"]["ClipsDescendants"] = true;
+G2L["3"]["Size"] = UDim2.new(0, 650, 0, 409);
+G2L["3"]["Position"] = UDim2.new(0.24268, 0, 0.24666, 0);
+G2L["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["3"]["Name"] = [[MainWindow]];
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.UICorner
+G2L["4"] = Instance.new("UICorner", G2L["3"]);
+G2L["4"]["CornerRadius"] = UDim.new(0.05, 5);
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.UIGradient
+G2L["5"] = Instance.new("UIGradient", G2L["3"]);
+G2L["5"]["Rotation"] = 90;
+G2L["5"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(116, 0, 0)),ColorSequenceKeypoint.new(0.234, Color3.fromRGB(73, 14, 16)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(26, 29, 33))};
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.Left
+G2L["6"] = Instance.new("Frame", G2L["3"]);
+G2L["6"]["BorderSizePixel"] = 0;
+G2L["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["6"]["Size"] = UDim2.new(0, 100, 0, 409);
+G2L["6"]["Position"] = UDim2.new(0, 0, -0, 0);
+G2L["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["6"]["Name"] = [[Left]];
+G2L["6"]["BackgroundTransparency"] = 1;
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.Left.UICorner
+G2L["7"] = Instance.new("UICorner", G2L["6"]);
+G2L["7"]["CornerRadius"] = UDim.new(0.05, 5);
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.Drag
+G2L["8"] = Instance.new("LocalScript", G2L["3"]);
+G2L["8"]["Name"] = [[Drag]];
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.MoveMainWindow
+G2L["9"] = Instance.new("BoolValue", G2L["3"]);
+G2L["9"]["Name"] = [[MoveMainWindow]];
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.Move
+G2L["a"] = Instance.new("Script", G2L["3"]);
+G2L["a"]["Name"] = [[Move]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem
+G2L["b"] = Instance.new("Frame", G2L["2"]);
+G2L["b"]["BorderSizePixel"] = 0;
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["ClipsDescendants"] = true;
+G2L["b"]["Size"] = UDim2.new(0, 650, 0, 409);
+G2L["b"]["Position"] = UDim2.new(0.24268, 0, 0.24666, 0);
+G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["b"]["Name"] = [[KeySystem]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.UICorner
+G2L["c"] = Instance.new("UICorner", G2L["b"]);
+G2L["c"]["CornerRadius"] = UDim.new(0.05, 5);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.UIGradient
+G2L["d"] = Instance.new("UIGradient", G2L["b"]);
+G2L["d"]["Rotation"] = 90;
+G2L["d"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(116, 0, 0)),ColorSequenceKeypoint.new(0.234, Color3.fromRGB(73, 14, 16)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(26, 29, 33))};
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.UIGradient.CColor
+G2L["e"] = Instance.new("Script", G2L["d"]);
+G2L["e"]["Enabled"] = false;
+G2L["e"]["Disabled"] = true;
+G2L["e"]["Name"] = [[CColor]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.UIGradient.Rotate
+G2L["f"] = Instance.new("Script", G2L["d"]);
+G2L["f"]["Enabled"] = false;
+G2L["f"]["Disabled"] = true;
+G2L["f"]["Name"] = [[Rotate]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Drag
+G2L["10"] = Instance.new("LocalScript", G2L["b"]);
+G2L["10"]["Name"] = [[Drag]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox
+G2L["11"] = Instance.new("TextBox", G2L["b"]);
+G2L["11"]["CursorPosition"] = -1;
+G2L["11"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["11"]["PlaceholderColor3"] = Color3.fromRGB(16, 16, 16);
+G2L["11"]["BorderSizePixel"] = 0;
+G2L["11"]["TextWrapped"] = true;
+G2L["11"]["TextSize"] = 14;
+G2L["11"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["11"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["11"]["ClearTextOnFocus"] = false;
+G2L["11"]["PlaceholderText"] = [[Введите ключ]];
+G2L["11"]["Size"] = UDim2.new(0, 200, 0, 50);
+G2L["11"]["Position"] = UDim2.new(0.346, 0, 0.438, -30);
+G2L["11"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["11"]["Text"] = [[]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.Move
+G2L["12"] = Instance.new("Script", G2L["11"]);
+G2L["12"]["Name"] = [[Move]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.TextButton
+G2L["13"] = Instance.new("TextButton", G2L["11"]);
+G2L["13"]["BorderSizePixel"] = 0;
+G2L["13"]["TextSize"] = 26;
+G2L["13"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["13"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["13"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["13"]["Size"] = UDim2.new(0, 200, 0, 50);
+G2L["13"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["13"]["Text"] = [[Чекнуть ключ]];
+G2L["13"]["Position"] = UDim2.new(0, 0, 1.58, 0);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.TextButton.UIStroke
+G2L["14"] = Instance.new("UIStroke", G2L["13"]);
+G2L["14"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["14"]["Thickness"] = 9;
+G2L["14"]["Color"] = Color3.fromRGB(87, 87, 87);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.UIStroke
+G2L["15"] = Instance.new("UIStroke", G2L["11"]);
+G2L["15"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["15"]["Thickness"] = 5;
+G2L["15"]["Color"] = Color3.fromRGB(90, 90, 90);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.UICorner
+G2L["16"] = Instance.new("UICorner", G2L["11"]);
+G2L["16"]["CornerRadius"] = UDim.new(0, 30);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.TextBox.MoveTextbox
+G2L["17"] = Instance.new("BoolValue", G2L["11"]);
+G2L["17"]["Name"] = [[MoveTextbox]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.KeyIncorrect
+G2L["18"] = Instance.new("Script", G2L["b"]);
+G2L["18"]["Enabled"] = false;
+G2L["18"]["Disabled"] = true;
+G2L["18"]["Name"] = [[KeyIncorrect]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.KeyCorrect
+G2L["19"] = Instance.new("Script", G2L["b"]);
+G2L["19"]["Enabled"] = false;
+G2L["19"]["Disabled"] = true;
+G2L["19"]["Name"] = [[KeyCorrect]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.copyright1
+G2L["1a"] = Instance.new("TextLabel", G2L["b"]);
+G2L["1a"]["TextWrapped"] = true;
+G2L["1a"]["BorderSizePixel"] = 0;
+G2L["1a"]["TextTransparency"] = 0.5;
+G2L["1a"]["TextScaled"] = true;
+G2L["1a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1a"]["TextSize"] = 14;
+G2L["1a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Heavy, Enum.FontStyle.Normal);
+G2L["1a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1a"]["BackgroundTransparency"] = 1;
+G2L["1a"]["Size"] = UDim2.new(0.22348, 0, 0.1002, 0);
+G2L["1a"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["1a"]["Text"] = [[N0LiWare]];
+G2L["1a"]["Name"] = [[copyright1]];
+G2L["1a"]["Position"] = UDim2.new(0.43021, -266, 0.44939, -170);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.copyright3
+G2L["1b"] = Instance.new("TextLabel", G2L["b"]);
+G2L["1b"]["TextWrapped"] = true;
+G2L["1b"]["BorderSizePixel"] = 0;
+G2L["1b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["1b"]["TextTransparency"] = 0.5;
+G2L["1b"]["TextScaled"] = true;
+G2L["1b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1b"]["TextSize"] = 14;
+G2L["1b"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["1b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1b"]["BackgroundTransparency"] = 1;
+G2L["1b"]["Size"] = UDim2.new(0.23752, 0, 0.11804, 0);
+G2L["1b"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["1b"]["Text"] = [[RU]];
+G2L["1b"]["Name"] = [[copyright3]];
+G2L["1b"]["Position"] = UDim2.new(0.43179, -268, 0.53178, -177);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Credits
+G2L["1c"] = Instance.new("TextButton", G2L["b"]);
+G2L["1c"]["TextWrapped"] = true;
+G2L["1c"]["BorderSizePixel"] = 0;
+G2L["1c"]["TextSize"] = 20;
+G2L["1c"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["1c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1c"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["1c"]["Size"] = UDim2.new(0, 77, 0, 40);
+G2L["1c"]["Name"] = [[Credits]];
+G2L["1c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["1c"]["Text"] = [[Авторы]];
+G2L["1c"]["Position"] = UDim2.new(0.02, 0, 0.23961, 0);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Credits.UIStroke
+G2L["1d"] = Instance.new("UIStroke", G2L["1c"]);
+G2L["1d"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["1d"]["Thickness"] = 5;
+G2L["1d"]["Color"] = Color3.fromRGB(90, 90, 90);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Credits.Script
+G2L["1e"] = Instance.new("Script", G2L["1c"]);
+
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome
+G2L["1f"] = Instance.new("TextLabel", G2L["b"]);
+G2L["1f"]["TextWrapped"] = true;
+G2L["1f"]["BorderSizePixel"] = 0;
+G2L["1f"]["TextScaled"] = true;
+G2L["1f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1f"]["TextSize"] = 13;
+G2L["1f"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["1f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["1f"]["BackgroundTransparency"] = 1;
+G2L["1f"]["Size"] = UDim2.new(0, 100, 0, 30);
+G2L["1f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["1f"]["Text"] = [[Добро пожаловать]];
+G2L["1f"]["Name"] = [[Welcome]];
+G2L["1f"]["Position"] = UDim2.new(0.34462, 0, 0.81453, 0);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome.Nick
+G2L["20"] = Instance.new("TextLabel", G2L["1f"]);
+G2L["20"]["TextWrapped"] = true;
+G2L["20"]["BorderSizePixel"] = 0;
+G2L["20"]["TextScaled"] = true;
+G2L["20"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["20"]["TextSize"] = 14;
+G2L["20"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["20"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["20"]["BackgroundTransparency"] = 1;
+G2L["20"]["Size"] = UDim2.new(0, 100, 0, 30);
+G2L["20"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["20"]["Text"] = [[Nick]];
+G2L["20"]["Name"] = [[Nick]];
+G2L["20"]["Position"] = UDim2.new(1, 0, 0, 0);
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome.Nick.LocalScript
+G2L["21"] = Instance.new("LocalScript", G2L["20"]);
+
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome.Move
+G2L["22"] = Instance.new("Script", G2L["1f"]);
+G2L["22"]["Name"] = [[Move]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome.MoveWelcome
+G2L["23"] = Instance.new("BoolValue", G2L["1f"]);
+G2L["23"]["Name"] = [[MoveWelcome]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.test
+G2L["24"] = Instance.new("Script", G2L["b"]);
+G2L["24"]["Name"] = [[test]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.MoveKeySystem
+G2L["25"] = Instance.new("BoolValue", G2L["b"]);
+G2L["25"]["Name"] = [[MoveKeySystem]];
+
+-- StarterGui.NoliWare.MainFrame.KeySystem.Move
+G2L["26"] = Instance.new("Script", G2L["b"]);
+G2L["26"]["Name"] = [[Move]];
+
+-- StarterGui.NoliWare.MainFrame.Credits
+G2L["27"] = Instance.new("Frame", G2L["2"]);
+G2L["27"]["BorderSizePixel"] = 0;
+G2L["27"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["27"]["Size"] = UDim2.new(0, 223, 0, 395);
+G2L["27"]["Position"] = UDim2.new(0.78165, 20, 0.26361, 0);
+G2L["27"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["27"]["Name"] = [[Credits]];
+
+-- StarterGui.NoliWare.MainFrame.Credits.Move
+G2L["28"] = Instance.new("Script", G2L["27"]);
+G2L["28"]["Name"] = [[Move]];
+
+-- StarterGui.NoliWare.MainFrame.Credits.MoveFrame
+G2L["29"] = Instance.new("BoolValue", G2L["27"]);
+G2L["29"]["Name"] = [[MoveFrame]];
+
+-- StarterGui.NoliWare.MainFrame.Credits.ImageLabel
+G2L["2a"] = Instance.new("ImageLabel", G2L["27"]);
+G2L["2a"]["BorderSizePixel"] = 0;
+G2L["2a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2a"]["ImageColor3"] = Color3.fromRGB(255, 0, 0);
+G2L["2a"]["Image"] = [[http://www.roblox.com/asset/?id=18836800897]];
+G2L["2a"]["Size"] = UDim2.new(0, 36, 0, 34);
+G2L["2a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2a"]["BackgroundTransparency"] = 1;
+G2L["2a"]["Position"] = UDim2.new(0.02, 0, 0.08858, 0);
+
+-- StarterGui.NoliWare.MainFrame.Credits.ImageLabel.TextLabel
+G2L["2b"] = Instance.new("TextLabel", G2L["2a"]);
+G2L["2b"]["TextWrapped"] = true;
+G2L["2b"]["BorderSizePixel"] = 0;
+G2L["2b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2b"]["TextSize"] = 13;
+G2L["2b"]["FontFace"] = Font.new([[rbxasset://fonts/families/Michroma.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["2b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2b"]["BackgroundTransparency"] = 1;
+G2L["2b"]["Size"] = UDim2.new(0, 74, 0, 32);
+G2L["2b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2b"]["Text"] = [[nolimanom]];
+G2L["2b"]["Position"] = UDim2.new(1.11111, -3, 0.01294, 0);
+
+-- StarterGui.NoliWare.MainFrame.Credits.UICorner
+G2L["2c"] = Instance.new("UICorner", G2L["27"]);
+
+
+-- StarterGui.NoliWare.MainFrame.Credits.TextLabel
+G2L["2d"] = Instance.new("TextLabel", G2L["27"]);
+G2L["2d"]["BorderSizePixel"] = 0;
+G2L["2d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2d"]["TextSize"] = 14;
+G2L["2d"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["2d"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2d"]["BackgroundTransparency"] = 1;
+G2L["2d"]["Size"] = UDim2.new(0, 223, 0, 25);
+G2L["2d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2d"]["Text"] = [[Авторы noliware]];
+G2L["2d"]["Position"] = UDim2.new(0, 0, 0.00025, 0);
+
+-- StarterGui.NoliWare.MainFrame.Credits.UIGradient
+G2L["2e"] = Instance.new("UIGradient", G2L["27"]);
+G2L["2e"]["Rotation"] = 90;
+G2L["2e"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(116, 0, 0)),ColorSequenceKeypoint.new(0.234, Color3.fromRGB(73, 14, 16)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(26, 29, 33))};
+
+-- StarterGui.NoliWare.MainFrame.Credits.UIGradient.Script
+G2L["2f"] = Instance.new("Script", G2L["2e"]);
+
+
+-- StarterGui.NoliWare.MainFrame.MainWindow.Drag
+local function C_8()
+local script = G2L["8"];
+	-- Скрипт для создания фрейма перетаскиваемым
+	local userInputService = game:GetService("UserInputService")
+	local runService = game:GetService("RunService")
+	
+	local frame = script.Parent
+	
+		local dragging = false
+	local dragInput, mousePos, framePos
+	
+	local function update(input)
+		local delta = input.Position - mousePos
+		frame.Position = UDim2.new(
+			framePos.X.Scale,
+			framePos.X.Offset + delta.X,
+			framePos.Y.Scale,
+			framePos.Y.Offset + delta.Y
+		)
+	end
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			mousePos = input.Position
+			framePos = frame.Position
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	runService.RenderStepped:Connect(function()
+		if dragging and dragInput then
+			update(dragInput)
+		end
+	end)
+	
+end;
+task.spawn(C_8);
+-- StarterGui.NoliWare.MainFrame.KeySystem.Drag
+local function C_10()
+local script = G2L["10"];
+	-- Скрипт для создания фрейма перетаскиваемым
+	local userInputService = game:GetService("UserInputService")
+	local runService = game:GetService("RunService")
+	
+	local frame = script.Parent
+	
+		local dragging = false
+	local dragInput, mousePos, framePos
+	
+	local function update(input)
+		local delta = input.Position - mousePos
+		frame.Position = UDim2.new(
+			framePos.X.Scale,
+			framePos.X.Offset + delta.X,
+			framePos.Y.Scale,
+			framePos.Y.Offset + delta.Y
+		)
+	end
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			mousePos = input.Position
+			framePos = frame.Position
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	runService.RenderStepped:Connect(function()
+		if dragging and dragInput then
+			update(dragInput)
+		end
+	end)
+	
+end;
+task.spawn(C_10);
+-- StarterGui.NoliWare.MainFrame.KeySystem.Welcome.Nick.LocalScript
+local function C_21()
+local script = G2L["21"];
+	-- Получение локального игрока
+	local player = game.Players.LocalPlayer
+	
+	-- Получение GUI элемента TextLabel
+	local textLabel = script.Parent -- Предполагается, что скрипт является дочерним элементом TextLabel
+	
+	-- Установка текста TextLabel на имя пользователя
+	textLabel.Text = player.Name
+	
+end;
+task.spawn(C_21);
+
+return G2L["1"], require;
