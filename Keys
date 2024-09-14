@@ -1,0 +1,12 @@
+{
+    "keys": [
+        {
+            "key": "U29tZUtleTE=",  // это "SomeKey1" в BASE64
+            "type": "Freemium"
+        },
+        {
+            "key": "U29tZUtleTI=",  // это "SomeKey2" в BASE64
+            "type": "Premium"
+        }
+    ]
+}
