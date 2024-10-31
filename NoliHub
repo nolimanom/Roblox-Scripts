@@ -7,7 +7,7 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 300 | Scripts: 43 | Modules: 0 | Tags: 0
+-- Instances: 304 | Scripts: 45 | Modules: 0 | Tags: 0
 local G2L = {};
 
 -- StarterGui.NoliHub
@@ -2833,6 +2833,34 @@ G2L["12c"] = Instance.new("LocalScript", G2L["1"]);
 G2L["12c"]["Name"] = [[Startup]];
 
 
+-- StarterGui.NoliHub.CloseNopen
+G2L["12d"] = Instance.new("TextButton", G2L["1"]);
+G2L["12d"]["Active"] = false;
+G2L["12d"]["BorderSizePixel"] = 0;
+G2L["12d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["12d"]["Selectable"] = false;
+G2L["12d"]["Size"] = UDim2.new(0, 52, 0, 50);
+G2L["12d"]["Name"] = [[CloseNopen]];
+G2L["12d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["12d"]["Text"] = [[Спрятать]];
+G2L["12d"]["Position"] = UDim2.new(0.73328, 0, 0.21892, 0);
+
+
+-- StarterGui.NoliHub.CloseNopen.UICorner
+G2L["12e"] = Instance.new("UICorner", G2L["12d"]);
+G2L["12e"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.NoliHub.CloseNopen.Drag
+G2L["12f"] = Instance.new("LocalScript", G2L["12d"]);
+G2L["12f"]["Name"] = [[Drag]];
+
+
+-- StarterGui.NoliHub.CloseNopen.LocalScript
+G2L["130"] = Instance.new("LocalScript", G2L["12d"]);
+
+
+
 -- StarterGui.NoliHub.Rejoin.LocalScript
 local function C_a()
 local script = G2L["a"];
@@ -4531,5 +4559,34 @@ local script = G2L["12c"];
 	script.Parent.MainFrame.Visible = true
 end;
 task.spawn(C_12c);
+-- StarterGui.NoliHub.CloseNopen.Drag
+local function C_12f()
+local script = G2L["12f"];
+	local button = script.Parent
+	local visible = true
+	
+	local function leftClick()
+	if visible == true then
+	script.Parent.Text = "Показать"
+	script.Parent.Parent.MainFrame.Visible = false
+	visible = false
+	else
+	script.Parent.Text = "Скрыть"
+	script.Parent.Parent.MainFrame.Visible = true
+	visible = true
+	end
+	end
+	button.MouseButton1Click:Connect(leftClick)
+end;
+task.spawn(C_12f);
+-- StarterGui.NoliHub.CloseNopen.LocalScript
+local function C_130()
+local script = G2L["130"];
+	frame = script.Parent
+	frame.Draggable = true
+	frame.Active = true
+	frame.Selectable = true
+end;
+task.spawn(C_130);
 
 return G2L["1"], require;
