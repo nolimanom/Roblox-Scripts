@@ -4952,7 +4952,7 @@ local script = G2L["14b"];
 	local function executeCommand(command)
 		if command == "Update" then
 			script.Parent.MainFrame.Shadow.BoolValue.Value = true
-			script.Parent.MainFrame.Shadow.Restart
+			script.Parent.MainFrame.Shadow.Restart.visible = true
 		elseif command == "Hide" then
 			Frame.Visible = false  -- Скрываем фрейм
 		end
